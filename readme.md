@@ -112,7 +112,7 @@ For each SSP scenario:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
+git clone https://github.com/pawansingh1610/OGGM_Himalaya
 cd YOUR_REPOSITORY
 ```
 
