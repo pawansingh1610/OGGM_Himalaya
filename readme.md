@@ -260,48 +260,16 @@ Contributions are welcome. Suggested improvements:
 - Coupling with remote sensing
 - Uncertainty quantification
 
-
----
-
-## 📜 License
-
-Add your preferred license here.
-
 ---
 
 ## 📧 Contact
 
 Pawan Singh  
 Indian Institute of Technology Roorkee
+pawansingh1610@gmail.com
 
 For questions, collaborations, or feedback, feel free to reach out.
 
 ---
 
-## ⭐ Citation
-
-If you use this workflow, please cite:
-
-- OGGM
-- Glacier3DViz
-- ISIMIP3b
-
-And reference this repository.
-
----
-
-## 🌍 Future Extensions
-
-Potential future developments:
-
-- Ensemble GCMs
-- Dynamic calving
-- Coupling with hydrology
-- Glacier hazard modelling
-- Regional Himalayan glacier projections
-
-
----
-
-**This repository provides a complete end‑to‑end solution for glacier modelling and visualisation under climate change.**
 
