@@ -1,0 +1,140 @@
+--- main_calibration_parallel_v2.py.orig
++++ main_calibration_parallel_v2.py
+@@ -104,8 +104,25 @@
+ # SETTINGS
+ # ─────────────────────────────────────────────────────────────────────────────
+ 
+-FORCINGS_TO_RUN = ['ERA5', 'ERA5-Land', 'CRU_TS4', 'CHELSA', 'HARv2']
+-REGIONS_TO_RUN  = ['RGI60-13', 'RGI60-14', 'RGI60-15']
++ALL_FORCINGS = ['ERA5', 'ERA5-Land', 'CRU_TS4', 'CHELSA', 'HARv2']
++ALL_REGIONS  = ['RGI60-13', 'RGI60-14', 'RGI60-15']
++
++
++def _env_subset(name, allowed):
++    """Run switch (environment only, no physics change): comma-separated subset,
++    e.g. OGGM_V3_ONLY_FORCING=ERA5 OGGM_V3_ONLY_REGION=RGI60-13. Unset = all."""
++    raw = os.environ.get(name, '').strip()
++    if not raw:
++        return list(allowed)
++    sel = [s.strip() for s in raw.split(',') if s.strip()]
++    bad = [s for s in sel if s not in allowed]
++    if bad:
++        raise SystemExit(f"{name}={raw!r}: unknown {bad}; allowed {allowed}")
++    return [a for a in allowed if a in sel]
++
++
++FORCINGS_TO_RUN = _env_subset('OGGM_V3_ONLY_FORCING', ALL_FORCINGS)
++REGIONS_TO_RUN  = _env_subset('OGGM_V3_ONLY_REGION', ALL_REGIONS)
+ RUN_SUFFIX      = os.environ.get('OGGM_V3_RUN', 'run_03')   # separate folder per sensitivity run
+ 
+ REFERENCE_YEAR = 2000            # RGI epoch: V_ref = state at end of 1999
+@@ -207,6 +224,63 @@
+ 
+ 
+ # ─────────────────────────────────────────────────────────────────────────────
++# CODE / PRIOR GUARD (added for run_05 after the run_04_full sigma_T mix-up)
++# run_04_full: calibration_v3.py was edited (default sigma_T 1.5 -> 4) while the
++# run was going; 'spawn' workers re-import the module for every new pool, so the
++# first pool (ERA5 x RGI60-13) used 1.5 and all later pools 4. Now:
++#   - main() resolves the prior ONCE and exports it as OGGM_V3_PRIOR_* env vars,
++#     which every spawned worker inherits (file defaults can no longer leak in);
++#   - SHA-256 of the code that workers import is stored at start-up and checked
++#     before every new pool and in every worker; any change stops the run.
++# ─────────────────────────────────────────────────────────────────────────────
++import hashlib
++
++_CODE_DIR = Path(__file__).resolve().parent
++GUARDED_FILES = [_CODE_DIR / 'calibration_v3.py',
++                 _CODE_DIR / 'climate_loader_unified.py',
++                 Path(__file__).resolve()]
++
++
++class CodeChangedError(RuntimeError):
++    pass
++
++
++def _code_hashes() -> dict:
++    return {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in GUARDED_FILES}
++
++
++def _lock_prior_and_code() -> dict:
++    """Call once in main(), before any pool exists."""
++    import calibration_v3 as c
++    prior = {'OGGM_V3_PRIOR_T0': float(c.PRIOR_T0),
++             'OGGM_V3_PRIOR_SIGMA_T': float(c.PRIOR_SIGMA_T),
++             'OGGM_V3_PRIOR_PF0': float(c.PRIOR_PF0),
++             'OGGM_V3_PRIOR_PF_FACTOR': float(np.exp(c.PRIOR_SIGMA_LNP))}
++    for k, v in prior.items():
++        os.environ[k] = repr(v)
++    os.environ['OGGM_V3_CODE_SHA256'] = json.dumps(_code_hashes(), sort_keys=True)
++    return prior
++
++
++def _check_code_unchanged(where: str) -> None:
++    locked = json.loads(os.environ['OGGM_V3_CODE_SHA256'])
++    now = _code_hashes()
++    changed = [k for k in locked if locked[k] != now.get(k)]
++    if changed:
++        raise CodeChangedError(f"{where}: {changed} changed since start-up. "
++                               f"Refusing to continue (results would mix code versions).")
++
++
++def _worker_init() -> None:
++    """ProcessPoolExecutor initializer: runs once in every spawned worker."""
++    _check_code_unchanged('worker start-up')
++    import calibration_v3 as c
++    exp = float(os.environ['OGGM_V3_PRIOR_SIGMA_T'])
++    if abs(float(c.PRIOR_SIGMA_T) - exp) > 1e-12:
++        raise CodeChangedError(f"worker PRIOR_SIGMA_T={c.PRIOR_SIGMA_T} != locked {exp}")
++
++
++# ─────────────────────────────────────────────────────────────────────────────
+ # CHECKPOINTS
+ # ─────────────────────────────────────────────────────────────────────────────
+ 
+@@ -657,7 +731,8 @@
+     pending_ckpt = []
+     first_error_shown = False
+     early = []                      # outcomes of the first FAIL_FAST_N glaciers
+-    with ProcessPoolExecutor(max_workers=N_WORKERS) as pool:
++    _check_code_unchanged(f"before pool {forcing}/{region_code}")
++    with ProcessPoolExecutor(max_workers=N_WORKERS, initializer=_worker_init) as pool:
+         futures = {pool.submit(_worker, t): t['rgi_id'] for t in tasks_}
+         for fut in as_completed(futures):
+             rgi_id = futures[fut]
+@@ -716,7 +791,10 @@
+     print(f"  Forcings   : {FORCINGS_TO_RUN}\n  Regions    : {REGIONS_TO_RUN}")
+     print(f"  Workers    : {N_WORKERS}   Test mode: {TEST_N or 'off'}   "
+           f"Run: {RUN_SUFFIX}")
++    prior = _lock_prior_and_code()
+     import calibration_v3 as _c
++    print(f"  Prior lock : {prior}")
++    print(f"  Code SHA256: {os.environ['OGGM_V3_CODE_SHA256']}")
+     print(f"  Prior      : dT0={_c.PRIOR_T0} sigma_T={_c.PRIOR_SIGMA_T} "
+           f"pf0={_c.PRIOR_PF0} pf_factor={float(np.exp(_c.PRIOR_SIGMA_LNP)):.2f}"
+           f"   bounds {_c.BOUNDS}")
+@@ -727,6 +805,14 @@
+         print(f"  orography {f:10s}: {find_orography_file(f, CACHE_ROOT)}")
+ 
+     OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
++    manifest = OUTPUT_ROOT / f"run_manifest_{RUN_SUFFIX}.json"
++    manifest.write_text(json.dumps({
++        'run': RUN_SUFFIX, 'started': datetime.now().isoformat(timespec='seconds'),
++        'forcings': FORCINGS_TO_RUN, 'regions': REGIONS_TO_RUN, 'prior': prior,
++        'bounds': {k: list(v) for k, v in _c.BOUNDS.items()},
++        'code_sha256': json.loads(os.environ['OGGM_V3_CODE_SHA256']),
++        'test_n': TEST_N, 'workers': N_WORKERS}, indent=2))
++    print(f"  Manifest   : {manifest}")
+     field_ids = _field_ids(CACHE_ROOT)
+     print(f"  Field-MB glaciers: {len(field_ids)}")
+ 
+@@ -734,6 +820,9 @@
+         for region_code in REGIONS_TO_RUN:
+             try:
+                 run_forcing_region(forcing, region_code, field_ids)
++            except CodeChangedError as e:
++                print(f"\nABORT: {e}", flush=True)
++                sys.exit(3)
+             except Exception as e:
+                 print(f"\nERROR in {forcing}/{region_code}: {e}")
+                 traceback.print_exc()

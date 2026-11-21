@@ -1,0 +1,19 @@
+{
+  "title": "HMA glacier reconstruction with five climate forcings: code",
+  "upload_type": "software",
+  "creators": [
+    {
+      "name": "Singh, Pawan",
+      "affiliation": "Indian Institute of Technology Bombay, Mumbai, India"
+    }
+  ],
+  "description": "Model code (OGGM 1.6.3 preprocessing and temperature-index mass balance, volume-area scaling, per-glacier calibration to Hugonnet et al. 2021) and the analysis scripts that produce every table, figure and number of the manuscript 'Sensitivity of High Mountain Asia glacier mass balance reconstructions (1950-2025) to different climate forcings'. Data are in a separate Zenodo record.",
+  "license": "MIT",
+  "keywords": [
+    "glacier mass balance",
+    "High Mountain Asia",
+    "OGGM",
+    "climate forcing",
+    "reconstruction"
+  ]
+}

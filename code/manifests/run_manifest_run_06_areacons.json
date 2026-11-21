@@ -1,0 +1,43 @@
+{
+  "run": "run_06_areacons",
+  "started": "2026-11-09T21:16:56",
+  "forcings": [
+    "ERA5",
+    "ERA5-Land",
+    "CRU_TS4",
+    "CHELSA",
+    "HARv2"
+  ],
+  "regions": [
+    "RGI60-13",
+    "RGI60-14",
+    "RGI60-15"
+  ],
+  "prior": {
+    "OGGM_V3_PRIOR_T0": 0.0,
+    "OGGM_V3_PRIOR_SIGMA_T": 4.0,
+    "OGGM_V3_PRIOR_PF0": 1.5,
+    "OGGM_V3_PRIOR_PF_FACTOR": 2.0
+  },
+  "bounds": {
+    "temp_bias": [
+      -10.0,
+      10.0
+    ],
+    "prcp_fac": [
+      0.3,
+      6.0
+    ]
+  },
+  "code_sha256": {
+    "area_factors_run_04_full_fix.csv": "ff6f5698b894db8355aeda342b153da7d619dcbebab6f61f7399ae6b476da771",
+    "calibration_v3.py": "1009180869f9f2296a6f7d3f31f38da95cf09b2b7c8e4ca81d382cf8aeac3770",
+    "climate_loader_unified.py": "b0baa853dd5a0e4d9bd6c30858991f634279bf066a40ca559d702e43da592b1c",
+    "main_calibration_parallel_v2.py": "b9ee7f574855a171de96f2bde77605cb8c63fd14f4259dad64de1a57bda3eedb"
+  },
+  "test_n": 0,
+  "workers": 12,
+  "only_ids": [],
+  "area_consistent": true,
+  "area_factors_file": "<OGGM_ROOT>/calibration_output_v3/area_factors_run_04_full_fix.csv"
+}

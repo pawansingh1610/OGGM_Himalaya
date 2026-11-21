@@ -1,0 +1,6 @@
+{
+  "data_root": "<HMA_OGGM_ROOT>/download_cache",
+  "output_root": "<HMA_OGGM_ROOT>/calibration_output_v3",
+  "output_root_v2": "<HMA_OGGM_ROOT>/calibration_output_v2",
+  "code_dir": "<path to this folder>"
+}

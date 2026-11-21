@@ -1,0 +1,108 @@
+--- main_calibration_parallel_v2.py.pre_run06.bak	2026-11-09 14:06:55.063856266 +0530
++++ main_calibration_parallel_v2.py	2026-11-09 18:49:21.135392218 +0530
+@@ -124,6 +124,17 @@
+ FORCINGS_TO_RUN = _env_subset('OGGM_V3_ONLY_FORCING', ALL_FORCINGS)
+ REGIONS_TO_RUN  = _env_subset('OGGM_V3_ONLY_REGION', ALL_REGIONS)
+ RUN_SUFFIX      = os.environ.get('OGGM_V3_RUN', 'run_03')   # separate folder per sensitivity run
++# Testing on chosen glaciers: comma list of RGI ids (empty = all glaciers of the region)
++ONLY_IDS = [s.strip() for s in os.environ.get('OGGM_V3_ONLY_IDS', '').split(',') if s.strip()]
++
++# Area-consistent calibration target (run_06): Hugonnet per-glacier rates are mass change / FIXED RGI area,
++# but the model integrates dM = B * A(t) with the shrinking V-A area. With OGGM_V3_AREA_CONSISTENT=1 the
++# target (and its sigma) is multiplied by factor = A_RGI / mean(A_start over the calibration period) of a
++# reference run, read from OGGM_V3_AREA_FACTORS (csv: rgi_id, forcing, calib_period, factor, capped).
++AREA_CONSISTENT   = os.environ.get('OGGM_V3_AREA_CONSISTENT', '0') == '1'
++AREA_FACTORS_FILE = os.environ.get('OGGM_V3_AREA_FACTORS', '')
++if AREA_CONSISTENT and not (AREA_FACTORS_FILE and Path(AREA_FACTORS_FILE).is_file()):
++    raise SystemExit(f"OGGM_V3_AREA_CONSISTENT=1 needs OGGM_V3_AREA_FACTORS=<csv>; got {AREA_FACTORS_FILE!r}")
+ 
+ REFERENCE_YEAR = 2000            # RGI epoch: V_ref = state at end of 1999
+ GEODETIC_START = 2000            # (kept for 04_MONITOR_progress.py)
+@@ -239,6 +250,8 @@
+ GUARDED_FILES = [_CODE_DIR / 'calibration_v3.py',
+                  _CODE_DIR / 'climate_loader_unified.py',
+                  Path(__file__).resolve()]
++if AREA_CONSISTENT:                       # the factor table must not change during the run either
++    GUARDED_FILES.append(Path(AREA_FACTORS_FILE).resolve())
+ 
+ 
+ class CodeChangedError(RuntimeError):
+@@ -327,6 +340,17 @@
+ # ─────────────────────────────────────────────────────────────────────────────
+ 
+ _GEO_DF = None
++_AREA_F = None
++
++
++def _area_factor(rgi_id, forcing):
++    """(factor, capped, calib_period) from OGGM_V3_AREA_FACTORS, or None if the glacier is not in it."""
++    global _AREA_F
++    if _AREA_F is None:
++        d = pd.read_csv(AREA_FACTORS_FILE, usecols=['rgi_id', 'forcing', 'calib_period', 'factor', 'capped'])
++        _AREA_F = {(r.rgi_id, r.forcing): (float(r.factor), bool(r.capped), str(r.calib_period))
++                   for r in d.itertuples(index=False)}
++    return _AREA_F.get((rgi_id, forcing))
+ 
+ 
+ def _hugonnet_rows(rgi_id):
+@@ -524,6 +548,17 @@
+             raise RuntimeError("No Hugonnet period fully covered by forcing")
+ 
+         target, sigma = hug[cal_period]
++        target_hug, sigma_hug = target, sigma
++        area_factor, area_flag = 1.0, 'off'
++        if AREA_CONSISTENT:
++            fr = _area_factor(rgi_id, forcing)
++            if fr is None:
++                area_flag = 'missing'                       # not in the reference run -> factor 1
++            else:
++                if fr[2] != cal_period:
++                    raise RuntimeError(f"area factor period {fr[2]} != calibration period {cal_period}")
++                area_factor, area_flag = fr[0], ('capped' if fr[1] else 'ok')
++            target, sigma = target * area_factor, sigma * area_factor
+         if not (np.isfinite(target) and abs(target) < 5):
+             raise RuntimeError(f"Implausible geodetic target {target}")
+         cal_years = _period_years(cal_period)
+@@ -577,6 +612,9 @@
+             # calibration
+             'calib_period': cal_period,
+             'geodetic_target': target, 'geodetic_sigma': sigma,
++            'geodetic_target_hugonnet': target_hug, 'geodetic_sigma_hugonnet': sigma_hug,
++            'area_consistent': AREA_CONSISTENT, 'area_factor': area_factor,
++            'area_factor_flag': area_flag,
+             'geodetic_modeled': calib['modeled_mb'],
+             'geodetic_residual': calib['residual'],
+             'temp_bias': calib['temp_bias'], 'prcp_fac': calib['prcp_fac'],
+@@ -717,6 +755,10 @@
+         rgi = pd.concat([fld, rnd])
+         print(f"  TEST MODE: {len(fld)} field + {len(rnd)} random glaciers")
+ 
++    if ONLY_IDS:
++        rgi = rgi[rgi['RGIId'].isin(ONLY_IDS)]
++        print(f"  ONLY_IDS: {len(rgi)} of {len(ONLY_IDS)} requested ids are in {region_code}")
++
+     completed = _load_completed(forcing, region_code)
+     todo = [r for _, r in rgi.iterrows() if r['RGIId'] not in completed]
+     tasks_ = [{'rgi_id': r['RGIId'], 'rgi_entity': _rgi_row_to_dict(r),
+@@ -798,6 +840,10 @@
+     print(f"  Prior      : dT0={_c.PRIOR_T0} sigma_T={_c.PRIOR_SIGMA_T} "
+           f"pf0={_c.PRIOR_PF0} pf_factor={float(np.exp(_c.PRIOR_SIGMA_LNP)):.2f}"
+           f"   bounds {_c.BOUNDS}")
++    print(f"  Area-consistent target: {AREA_CONSISTENT}"
++          + (f"  factors {AREA_FACTORS_FILE}" if AREA_CONSISTENT else ""))
++    if ONLY_IDS:
++        print(f"  ONLY_IDS   : {ONLY_IDS}")
+     print("=" * 70)
+ 
+     # Fail fast if any orography file is missing  [F1]
+@@ -811,7 +857,9 @@
+         'forcings': FORCINGS_TO_RUN, 'regions': REGIONS_TO_RUN, 'prior': prior,
+         'bounds': {k: list(v) for k, v in _c.BOUNDS.items()},
+         'code_sha256': json.loads(os.environ['OGGM_V3_CODE_SHA256']),
+-        'test_n': TEST_N, 'workers': N_WORKERS}, indent=2))
++        'test_n': TEST_N, 'workers': N_WORKERS, 'only_ids': ONLY_IDS,
++        'area_consistent': AREA_CONSISTENT,
++        'area_factors_file': AREA_FACTORS_FILE if AREA_CONSISTENT else None}, indent=2))
+     print(f"  Manifest   : {manifest}")
+     field_ids = _field_ids(CACHE_ROOT)
+     print(f"  Field-MB glaciers: {len(field_ids)}")

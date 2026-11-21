@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite it as below, together with the data record and the manuscript."
+title: "HMA glacier reconstruction with five climate forcings: code"
+authors:
+  - family-names: Singh
+    given-names: Pawan
+    affiliation: "Indian Institute of Technology Bombay, Mumbai, India"
+license: MIT
+repository-code: "https://github.com/pawansingh1610/OGGM_Himalaya"

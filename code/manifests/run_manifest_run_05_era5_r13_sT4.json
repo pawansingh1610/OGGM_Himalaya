@@ -1,0 +1,33 @@
+{
+  "run": "run_05_era5_r13_sT4",
+  "started": "2026-11-09T14:11:21",
+  "forcings": [
+    "ERA5"
+  ],
+  "regions": [
+    "RGI60-13"
+  ],
+  "prior": {
+    "OGGM_V3_PRIOR_T0": 0.0,
+    "OGGM_V3_PRIOR_SIGMA_T": 4.0,
+    "OGGM_V3_PRIOR_PF0": 1.5,
+    "OGGM_V3_PRIOR_PF_FACTOR": 2.0
+  },
+  "bounds": {
+    "temp_bias": [
+      -10.0,
+      10.0
+    ],
+    "prcp_fac": [
+      0.3,
+      6.0
+    ]
+  },
+  "code_sha256": {
+    "calibration_v3.py": "1009180869f9f2296a6f7d3f31f38da95cf09b2b7c8e4ca81d382cf8aeac3770",
+    "climate_loader_unified.py": "b0baa853dd5a0e4d9bd6c30858991f634279bf066a40ca559d702e43da592b1c",
+    "main_calibration_parallel_v2.py": "bfb056cb868fdf46c49f55acce440d370dd9f430b9721bee6f333b86a2a42a96"
+  },
+  "test_n": 0,
+  "workers": 6
+}
