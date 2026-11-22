@@ -62,7 +62,7 @@ for run, lab in RUNS.items():
     print(f"{lab:28s}", (t.v8099_pct - b.v8099_pct).round(2).to_dict(), "spread", round(t.v8099_pct.max() - t.v8099_pct.min(), 2), "vs base", round(b.v8099_pct.max() - b.v8099_pct.min(), 2))
 
 # ---- LaTeX table for the Supplement (tables/S13_sensitivity.tex)
-sg = lambda v, nd=2: ("$+$" if v > 0 else "$-$") + f"{abs(v):.{nd}f}" if abs(v) >= 0.5 * 10 ** -nd else f"{0:.{nd}f}"   # sign from v (was a fixed 0.005 threshold, wrong for nd=3)
+sg = lambda v, nd=2: ("$+$" if v > 0 else "$-$") + f"{abs(v):.{nd}f}" if abs(v) >= 0.5 * 10 ** -nd else f"{0:.{nd}f}"   # sign from v
 ORDER = [("run_s01_base", "Baseline"), ("run_s03_melt_p20", "Melt factor $+20$\\,\\%"), ("run_s04_melt_m20", "Melt factor $-20$\\,\\%"),
          ("run_s05_lapse_p001", "Lapse rate $+0.001$\\,K\\,m$^{-1}$"), ("run_s06_lapse_m001", "Lapse rate $-0.001$\\,K\\,m$^{-1}$"),
          ("run_s02_hindcast", "Calibrated to 2000--2009"), ("run_s07_rev_hindcast", "Calibrated to 2010--2019")]
@@ -77,7 +77,7 @@ for run, name in ORDER:
     r = V.loc[run]; d = r - V.loc["run_s01_base"]
     cells = [sgn(r[f]) + ("" if run == "run_s01_base" or pd.isna(r[f]) else f" ({sg(d[f])})") for f in FORC]
     Lx.append(f"{name} & " + " & ".join(cells) + f" & {r.max() - r.min():.2f} \\\\")
-# 1980-1999 specific mass balance for the calibration-window runs (round-3 review: size of the calibration-window effect)
+# 1980-1999 specific mass balance for the calibration-window runs (size of the calibration-window effect)
 Bm = T.pivot_table(index="run", columns="forcing", values="b8099_mwe").reindex(columns=FORC)
 Lx += ["\\middlehline", "(a$'$) 1980--1999 MB (m\\,w.e.\\,yr$^{-1}$) & ERA5 & ERA5-Land & HARv2 & CRU~TS4 & CHELSA & \\\\", "\\middlehline"]
 for run, name in (("run_s01_base", "Baseline"), ("run_s02_hindcast", "Calibrated to 2000--2009"), ("run_s07_rev_hindcast", "Calibrated to 2010--2019")):

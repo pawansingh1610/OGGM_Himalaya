@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """Field (glaciological) against modelled annual mass balance by sub-region and period, all available glacier-years per forcing
-(analysis/D_validation_pairs.csv, which carries the sub-region). Round-3 review (DOM-2/3: Hissar Alay, Karakoram).
+(analysis/D_validation_pairs.csv, which carries the sub-region).
 Output: tables/field_bias_subregion.csv (one row per sub-region x period x forcing: n glacier-years, glaciers, obs mean, model mean)."""
 from pathlib import Path
 import pandas as pd

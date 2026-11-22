@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Area-consistency factors for run_06_areacons (decision 2026-11-09).
+"""Area-consistency factors for run_06_areacons.
 
 For every glacier x forcing of the reference run (run_04_full_fix):
     factor = A_RGI / mean(A_start over the forcing's calibration period)

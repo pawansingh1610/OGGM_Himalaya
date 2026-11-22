@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Glacier-area-weighted annual climate of the five forcings, from the files the model actually used.
 
-Run with the conda env `oggm` (xarray, netCDF4). Reads External2 (download_cache + run_06 metadata), writes
+Run with the conda env `oggm` (xarray, netCDF4). Reads $HMA_OGGM_ROOT (download_cache + run_06 metadata), writes
 tables/climate_series_<forcing>.csv, one row per calendar year:
   T_grid   annual mean 2 m temperature at the climate grid cell (deg C), area-weighted over all glaciers
   T_zmed   the same, lapse-corrected to each glacier's median elevation with the model's regional lapse rate

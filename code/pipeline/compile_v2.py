@@ -50,7 +50,6 @@ COMPILE_ROOT = OUTPUT_ROOT.parent / ('compiled_v3' if RUN_SUFFIX == 'run_03'
 FORCINGS   = ['ERA5', 'ERA5-Land', 'CRU_TS4', 'CHELSA', 'HARv2']
 REGIONS    = ['RGI60-13', 'RGI60-14', 'RGI60-15']
 # Parallel readers: env OGGM_V3_COMPILE_WORKERS, default = all cores but 2
-# (v2 default was 30 % of cores, meant for the 172-core server)
 N_WORKERS  = int(os.environ.get('OGGM_V3_COMPILE_WORKERS',
                                 max(2, min(32, cpu_count() - 2))))
 BATCH      = 400            # glaciers per worker task (one DataFrame returned)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Area consistency of calibration and mass integration (decision 2, 2026-11-09).
+"""Area consistency of calibration and mass integration
 
 Hugonnet et al. (2021) per-glacier specific rates (our calibration targets) are mass change / fixed RGI 6.0 area
 (checked: sum(dmdtda * A_RGI) reproduces their Extended Data Table 1 regional Gt/yr for regions 13-15).

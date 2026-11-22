@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-"""Counts quoted in the Data and Methods sections of Draft_2, written to tables/methods_numbers.txt.
-Reads per_forcing/<F>/metadata.csv and failures_all.csv (External2, read-only) and analysis/*.csv."""
+"""Counts quoted in the Data and Methods sections of the paper, written to tables/methods_numbers.txt.
+Reads per_forcing/<F>/metadata.csv and failures_all.csv (read-only) and analysis/*.csv."""
 from pathlib import Path
 import pandas as pd
 

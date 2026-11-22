@@ -5,7 +5,7 @@ Hydrological year y = Oct (y-1) .. Sep (y), matched to the field year y (WGMS la
 the Jan-Dec sums of the same monthly output (= run_07 mb_annual_mwe, checked in the run). Metrics as 06_ANALYSIS_v3._metrics.
 Sets: (a) common_all5 and all_pairs as in Table 5 (calendar); (b) the same with hydrological years; (c) like-for-like:
 glacier-years with both calendar and hydrological values for all five forcings.
-Output: context/reports/external2_round3/hydro_*.csv. Env oggm."""
+Output: tables/additional_analyses/hydro_*.csv. Env oggm."""
 import sys as _s, pathlib as _p
 _s.path.insert(0, str(_p.Path(__file__).resolve().parents[1]))
 from config import OGGM_ROOT, CODE_DIR  # noqa: E402
@@ -14,7 +14,7 @@ from pathlib import Path
 import numpy as np, pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 RUN = OGGM_ROOT / "run_h01_field_monthly"
-OUT = ROOT / "context/reports/external2_round3"; OUT.mkdir(parents=True, exist_ok=True)
+OUT = ROOT / "tables/additional_analyses"; OUT.mkdir(parents=True, exist_ok=True)
 FORC = [f for f in ["ERA5", "ERA5-Land", "HARv2", "CRU_TS4", "CHELSA"] if (RUN / f"monthly_{f}.csv").exists()]
 P = pd.read_csv(ROOT / "analysis/D_validation_pairs.csv").dropna(subset=["rgi_id"])[["rgi_id", "year", "obs", "subregion"]]
 

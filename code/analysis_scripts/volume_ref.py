@@ -1,4 +1,4 @@
-"""Percent convention (decision B, 2026-11-09): every volume change is also given as % of the
+"""Percent convention: every volume change is also given as % of the
 consensus volume at the end of 1999 (V_1999) of the same glacier sample, one reference for all
 windows. V_1999 = V at year 1999 in analysis/B_regional_series.csv (forcing x level x unit); it is
 the Farinotti et al. (2019) consensus volume (Bahr fallback for 7 glaciers) of the in-sample glaciers.

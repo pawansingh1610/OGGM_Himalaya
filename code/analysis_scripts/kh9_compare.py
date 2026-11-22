@@ -66,7 +66,7 @@ for c in cols:
 S = pd.DataFrame(S); S.to_csv(ROOT / "tables/kh9_summary.csv", index=False); print(S.round(3).to_string(index=False))
 
 # ---- LaTeX tables (main: T9_kh9.tex; Supplement: S11_kh9_sites.tex)
-# Column order of the printed table (header below). Must match the header; was FORC order (HARv2 before CRU_TS4), which swapped two columns.
+# Column order of the printed table (header below). Must match the header.
 DISP = ["ERA5", "ERA5-Land", "CRU_TS4", "HARv2", "CHELSA"]
 assert sorted(DISP) == sorted(FORC)
 f2 = lambda v: ("$+$" if v >= 0.005 else "$-$") + f"{abs(v):.2f}" if abs(v) >= 0.005 else "0.00"

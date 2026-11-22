@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Figure 11 in Draft_2 (file 10) - share of the glacier area with positive annual mass balance, per forcing.
+"""Figure file 10 - share of the glacier area with positive annual mass balance, per forcing.
 
 Input: analysis/G_positive_mb_fraction.csv (year, forcing, frac_area)
 """
@@ -9,7 +9,7 @@ from style import AN, COL, DOUBLE, FORC, LABEL, LS, figure, header, legend_handl
 
 header(10, "positive-MB area fraction")
 G = pd.read_csv(AN / "G_positive_mb_fraction.csv")
-fig = figure(DOUBLE, 6.0)   # full width, longer time axis (author comment on Draft_2 p. 25)
+fig = figure(DOUBLE, 6.0)   # full width, longer time axis
 ax = fig.subplots()
 shade_periods(ax)
 for f in FORC:

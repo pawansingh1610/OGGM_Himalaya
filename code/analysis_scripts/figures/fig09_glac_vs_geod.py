@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Figure 7 in Draft_2 (file 09) - glaciological minus geodetic (Hugonnet et al. 2021) mean mass balance
+"""Figure file 09 - glaciological minus geodetic (Hugonnet et al. 2021) mean mass balance
 2000-2019, glaciers with >= 3 glaciological years in that period.
 
 Input: analysis/D_geodetic_vs_glaciological.csv (name, n_2000_2019, glac_minus_geod)

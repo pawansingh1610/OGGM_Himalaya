@@ -1,15 +1,14 @@
 #!/usr/bin/env python
-"""Figures and LaTeX tables for Draft_2 (HMA multi-forcing paper, v3 run_04_full_fix, sigma_T = 4 C everywhere).
+r"""LaTeX tables of the paper (sigma_T = 4 C everywhere).
 
 Inputs (read-only):
-  analysis/*.csv                                   copies of compiled_v3_run_04_full_fix/analysis
-  context/TEST_RUN_RESULTS_2026-11-05.md           prior-sensitivity table (S4)
-  External2 .../compiled_v3_run_04_full_fix/per_forcing/<F>/metadata.csv   per-glacier calibration (F2, T1)
-  External2 .../download_cache/HMA/HMA_region.shp  sub-region polygons (F1)
+  analysis/*.csv                                   analysis folder of the run in paths.py
+  $HMA_OGGM_ROOT/compiled_v3_<run>/per_forcing/<F>/metadata.csv   per-glacier calibration
+  $HMA_OGGM_ROOT/download_cache/HMA/HMA_region.shp  sub-region polygons
 
 Outputs:
   (figures: see scripts/figures/)
-  tables/T*.tex, tables/S*.tex  (Copernicus \tophline/\middlehline/\bottomhline; fallbacks in Draft_2 preamble)
+  tables/T*.tex, tables/S*.tex  (Copernicus \tophline/\middlehline/\bottomhline)
   tables/*.csv     the exact numbers each table prints
 
 Run:  conda activate oggm && python scripts/make_figures.py
@@ -140,7 +139,7 @@ def tex_esc(s):
 A = pd.read_csv(AN / "A_calibration_diagnostics.csv")
 B = pd.read_csv(AN / "B_regional_series.csv")
 BE = pd.read_csv(AN / "B_ensemble_series.csv")
-from volume_ref import windows_with_v1999  # noqa: E402  (decision B: % of in-sample V_1999)
+from volume_ref import windows_with_v1999  # noqa: E402  (% of in-sample V_1999)
 C = windows_with_v1999(pd.read_csv(AN / "C_volume_change_windows.csv"), pd.read_csv(AN / "B_regional_series.csv"))
 DO = pd.read_csv(AN / "D_validation_overall.csv")
 DD = pd.read_csv(AN / "D_validation_decadal.csv")
@@ -168,7 +167,7 @@ MD, HAVE_META = {}, False   # filled in __main__ (keeps imports from other scrip
 
 
 # ================================================================ FIGURES
-# Figures moved to scripts/figures/figNN_*.py (one script per figure, vector output; 2026-11-09).
+# Figures: scripts/figures/figNN_*.py (one script per figure).
 WLAB = {"recon_1980-1999": "1980–1999", "full_1980-2016": "1980–2016", "fwd_2000-2016": "2000–2016",
         "fwd_2000-2019": "2000–2019", "fwd_2000-2025": "2000–2025 (extrap.)", "recon_1950-1979": "1950–1979",
         "recon_1950-1999": "1950–1999", "full_1950-2019": "1950–2019", "full_1950-2025": "1950–2025"}
@@ -182,7 +181,7 @@ def t1_forcings():
     desc = {"ERA5": "global reanalysis", "ERA5-Land": "land reanalysis (ERA5-driven)",
             "HARv2": "regional reanalysis (WRF)", "CRU_TS4": "station-interpolated",
             "CHELSA": "downscaled W5E5 (ERA5 bias-adjusted to CRU)"}
-    VERSION = {"CRU_TS4": " (v4.04)"}   # product version stated by the author (2026-11-15); ends in 2019
+    VERSION = {"CRU_TS4": " (v4.04)"}   # product version; ends in 2019
     rows, rec = [], []
     for f in FORC:
         m = MD[f].iloc[0]
@@ -243,7 +242,7 @@ def t3_volume():
     print(df.pivot(index="window", columns="forcing", values="dV_pct_V1999").round(2).to_string())
     v99 = h.groupby("forcing").V_1999_km3.first().reindex(FORC)
     vtxt = ", ".join(f"{LABEL[f]} {v:,.0f}" for f, v in v99.items() if pd.notna(v))
-    import tables_tex; tables_tex.t3()   # compact layout (author comment on Draft_2 p. 12)
+    import tables_tex; tables_tex.t3()   # compact layout
 
 
 def t4_validation():
@@ -354,7 +353,7 @@ def s3_decadal():
 
 
 def s4_prior():
-    """Prior sensitivity from the analysis folders of the two test runs (681 glaciers) on External2:
+    """Prior sensitivity from the analysis folders of the two test runs (681 glaciers) in $HMA_OGGM_ROOT:
     compiled_v3 (sigma_T = 1.5) and compiled_v3_run_03_sT4 (sigma_T = 4). Volume change in % of V_1999."""
     print("S4 prior sensitivity (test runs compiled_v3 / compiled_v3_run_03_sT4)")
     runs = {"s15": EXT / "compiled_v3" / "analysis", "s4": EXT / "compiled_v3_run_03_sT4" / "analysis"}
@@ -448,7 +447,7 @@ def s6_backward_vanished():
 if __name__ == "__main__":
     MD = load_meta()
     HAVE_META = all(v is not None for v in MD.values())
-    print(f"metadata from External2: {'yes' if HAVE_META else 'NO'}")
+    print(f"per-glacier metadata: {'yes' if HAVE_META else 'NO'}")
     for fn in [t1_forcings, t2_calibration, t3_volume, t4_validation, t5_split,
                s1_calibration_subregion, s2_volume_subregion, s3_decadal, s4_prior,
                s5_extinction, s6_backward_vanished]:

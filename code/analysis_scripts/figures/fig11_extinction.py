@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-"""Supplement figure (file 11; moved out of the main text 2026-11-11) - glaciers reaching zero volume after 2000 (indicative),
+"""Supplement figure (file 11) - glaciers reaching zero volume after 2000 (indicative),
 run_06_areacons (area-consistent targets) and run_04_full_fix (specific-rate targets) side by side: (a) per year, consensus
-(bars) and run_06 per forcing (lines); (b) RGI area of the consensus setss.
+(bars) and run_06 per forcing (lines); (b) RGI area of the consensus sets.
 
 Inputs: analysis/F_extinction_by_year.csv (year, <forcing>, consensus), analysis/F_extinct_glaciers.csv (A_ref_km2, consensus_year)
 """
@@ -17,7 +17,7 @@ FY = pd.read_csv(AN / "F_extinction_by_year.csv")
 FX = pd.read_csv(AN / "F_extinct_glaciers.csv")
 OLD = ROOT / "analysis_superseded_run_04_full_fix"
 FYo = pd.read_csv(OLD / "F_extinction_by_year.csv"); FXo = pd.read_csv(OLD / "F_extinct_glaciers.csv")
-fig = figure(DOUBLE, 6.5)   # panels side by side (author comment on Draft_2 p. 24)
+fig = figure(DOUBLE, 6.5)   # panels side by side
 axs = fig.subplots(1, 2, width_ratios=[1.4, 1])
 ax = axs[0]
 ax.axvspan(2019.5, 2025.5, facecolor="none", edgecolor=HATCH_EXT, hatch="////", lw=0, zorder=0)

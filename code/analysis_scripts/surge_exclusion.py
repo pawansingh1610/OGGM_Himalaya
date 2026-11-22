@@ -7,13 +7,13 @@ sums of dm_gt, area_start, volume per year) for the full sample and for the samp
   - period-mean B and the equal-family best estimate (members covering every year; as best_mb_ensemble.aggregate),
   - KH-9 rows (as kh9_compare.py) with surge-type glaciers removed from each sample.
 The full-sample numbers are checked against analysis/C_volume_change_windows.csv and tables/best_mb_periods.csv.
-Output: context/reports/external2_round3/surge_*.csv. Env oggm. Read-only on External2."""
+Output: tables/additional_analyses/surge_*.csv. Env oggm. Reads the per-glacier data read-only."""
 import sys, io, contextlib
 from pathlib import Path
 import numpy as np, pandas as pd
 ROOT = Path(__file__).resolve().parents[1]; sys.path.insert(0, str(ROOT / "scripts"))
 from paths import PER_FORCING
-OUT = ROOT / "context/reports/external2_round3"; OUT.mkdir(parents=True, exist_ok=True)
+OUT = ROOT / "tables/additional_analyses"; OUT.mkdir(parents=True, exist_ok=True)
 FORC = ["ERA5", "ERA5-Land", "HARv2", "CRU_TS4", "CHELSA"]
 FAM = {"ERA5": "E", "ERA5-Land": "E", "HARv2": "E", "CRU_TS4": "C", "CHELSA": "C"}
 LK = pd.read_csv(ROOT / "analysis/glacier_lookup.csv")

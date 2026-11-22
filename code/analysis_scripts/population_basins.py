@@ -251,7 +251,7 @@ def main():
         for w, (y0, y1) in WINDOWS.items():
             v0, v1 = r.get(y0 - 1), r.get(y1)
             if pd.isna(v0) or pd.isna(v1): continue
-            v99 = r.get(1999)   # decision B: one reference, in-sample consensus V at end of 1999
+            v99 = r.get(1999)   # one reference: in-sample consensus V at end of 1999
             rec.append(dict(basin=r.basin, forcing=r.forcing, window=w, V_start=v0, V_1999=v99, dV_km3=v1 - v0,
                             dM_Gt=RHO * (v1 - v0),
                             dV_pct_V1999=100 * (v1 - v0) / v99 if v99 > 0 else np.nan,

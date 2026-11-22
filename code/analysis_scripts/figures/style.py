@@ -1,4 +1,4 @@
-"""Shared figure style for Draft_2 (Copernicus / The Cryosphere).
+"""Shared figure style (Copernicus / The Cryosphere).
 
 Every figure is drawn at its final printed size and included in LaTeX without scaling:
   SINGLE = 8.3 cm (one column), DOUBLE = 17.0 cm (full width).
@@ -30,7 +30,7 @@ SINGLE = 8.3 * CM
 DOUBLE = 17.0 * CM
 
 # ------------------------------------------------------------------ entities and colours
-# Fixed forcing -> colour mapping (validated palette, unchanged from Draft_2 v1 figures).
+# Fixed forcing -> colour mapping (colour-vision-deficiency checked palette).
 # Secondary encoding: line style by family (solid = ERA5 family, dashed = CRU family).
 FORC = ["ERA5", "ERA5-Land", "HARv2", "CRU_TS4", "CHELSA"]
 LABEL = {"ERA5": "ERA5", "ERA5-Land": "ERA5-Land", "HARv2": "HARv2",
@@ -41,7 +41,7 @@ LS = {"ERA5": "-", "ERA5-Land": "-", "HARv2": "-", "CRU_TS4": (0, (4, 1.6)), "CH
 CRU_FAMILY = {"CRU_TS4", "CHELSA"}
 
 INK = "#0b0b0b"      # text, best estimate
-INK2 = "#3a3936"     # secondary text, ticks (darker than v1 to avoid a washed-out look)
+INK2 = "#3a3936"     # secondary text, ticks
 MUTED = "#6f6d68"    # notes
 AXIS = "#3a3936"     # axis spines
 ZERO = "#8c8a84"     # zero lines

@@ -5,8 +5,7 @@ inter-quartile range of dT) and for each of the 15 sub-regions.
 
 Input: analysis/A_calibration_diagnostics.csv
   columns forcing, subregion, n, median_dT, iqr_dT, median_pf, median_elev_offset_m
-(Per-glacier box plots, as in the v1 figure, need the per-glacier metadata on External2, which must not be
-read while run_06 is running; this figure uses the per-sub-region medians that the analysis already holds.)
+Uses the per-sub-region medians of the analysis (no per-glacier metadata needed).
 """
 import numpy as np
 import pandas as pd

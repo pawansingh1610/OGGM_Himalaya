@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Figure 6 in Draft_2 (file 08) - modelled vs glaciological annual mass balance on the common five-forcing
+"""Figure file 08 - modelled vs glaciological annual mass balance on the common five-forcing
 subset (a-e) and bias by decade on all pairs (f).
 
 Inputs: analysis/D_validation_pairs.csv (rgi_id, year, obs, <forcing>), analysis/D_validation_overall.csv

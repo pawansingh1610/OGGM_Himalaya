@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """Comparison with the HMA values of Malles and Marzeion (2021, The Cryosphere 15, 3135-3157, Table 3: ensemble-mean regional
-mass change rate, mm SLE yr-1, RGI regions 13, 14, 15; read verbatim from the published PDF on 2026-11-16).
+mass change rate, mm SLE yr-1, RGI regions 13, 14, 15).
 Marzeion et al. (2015) give HMA values only as plots (their Fig. 2), so they are not used numerically.
 Our side: regional series analysis/B_regional_series.csv (level hma, dm_gt), mean over the same calendar years, per forcing
 covering every year. Conversion: 362 Gt per mm SLE (ocean area 3.62e8 km2; mass loss = positive SLE).

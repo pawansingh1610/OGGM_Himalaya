@@ -22,7 +22,6 @@ code/
     figures/                  one script per figure (make_all.py runs them all)
   manifests/                  run_manifest_*.json: settings, prior, bounds and SHA-256 of the code of each run
   calibration_inputs/         where the area-factor file from the data record goes
-legacy/durung_drung/          earlier single-glacier pipeline (Durung Drung), unrelated to the paper; GPL-3.0
 ```
 
 ## 2. Re-running
@@ -44,10 +43,10 @@ legacy/durung_drung/          earlier single-glacier pipeline (Durung Drung), un
    (= `data/table_and_figure_csv` + `gridded_maps` of the data record) in one working folder; `scripts/paths.py` selects the run. Set `HMA_OGGM_ROOT`.
    `*_chain.sh` additionally need `HMA_PAPER_ROOT`, `HMA_CODE_DIR` or `HMA_SENS_CODE_DIR`, and optionally `HMA_STATUS_DIR`.
 
-All absolute paths of the author's machine were replaced by these variables (`code/config.py`). The edits are **path-only**
-(candidate cache-path lists replaced by environment variables); no model logic was changed. The published versions of the
-following files differ from the files that ran only in file paths: `pipeline/climate_loader_unified.py`, `pipeline/precheck.py`,
-`pipeline/03_PRECHECK_run_first.py`, `pipeline/provenance/climate_loader_unified_run06.py` (plus the analysis/shell scripts).
+All absolute paths of the author's machine were replaced by these variables (`code/config.py`). The edits are limited to
+file paths (candidate cache-path lists replaced by environment variables) and comments; no model logic was changed. The
+published versions of the following files differ from the files that ran only in file paths and comments: `pipeline/climate_loader_unified.py`, `pipeline/precheck.py`,
+`pipeline/03_PRECHECK_run_first.py`, `pipeline/provenance/climate_loader_unified_run06.py` `pipeline/compile_v2.py` (plus the analysis/shell scripts).
 SHA-256 of the **original** (unedited) versions, as recorded in `manifests/`:
 
 | original file | SHA-256 |
@@ -58,7 +57,8 @@ SHA-256 of the **original** (unedited) versions, as recorded in `manifests/`:
 | `precheck.py` | `2ffce753e2996a32799e5a6ee4621522f41dce82e8adc4aefc7aba3e1d338201` |
 
 (`climate_loader_unified.py` = run_07 loader; `climate_loader_unified_run06.py` = run_06 loader; `precheck.py` and `03_PRECHECK_run_first.py` are identical.)
-`01_MAIN_PIPELINE_run_this.py` and `calibration_v3.py` are released unchanged.
+`01_MAIN_PIPELINE_run_this.py`, `main_calibration_parallel_v2.py`, `calibration_v3.py` and
+`provenance/01_MAIN_PIPELINE_sensitivity_runs_s01-s07.py` are released byte-identical to the files that ran (SHA-256 in `manifests/`).
 
 ## 3. Runs and provenance
 
@@ -83,5 +83,5 @@ documents the sources of the population and basin inputs.
 
 ## 5. Licence and citation
 
-Code: MIT (`LICENSE`), except `legacy/`, which keeps its own GPL-3.0 licence. Please cite the archived version of this
+Code: MIT (`LICENSE`). Please cite the archived version of this
 repository (see `CITATION.cff`), the Zenodo data record and the manuscript.

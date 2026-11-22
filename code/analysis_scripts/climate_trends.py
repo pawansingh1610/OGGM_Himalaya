@@ -4,7 +4,7 @@ tables/climate_series_<F>.csv (scripts/climate_series.py), against the 1980-1999
   T_zmed / P trend per decade (OLS) for 2000-2019 and 1980-2019 (CHELSA-W5E5: years available, to 2016);
   step = mean over the calibration period (2000-2019; CHELSA-W5E5 2000-2009) minus mean 1980-1999, for T_zmed and P (%).
 Also prints the 1980-1999 HMA best estimate without CHELSA-W5E5 (equal family weights, period means of analysis/B_regional_series.csv).
-Round-3 review (D-1, DA-4). Outputs: tables/climate_trends.csv, tables/S16_climate_trends.tex."""
+Outputs: tables/climate_trends.csv, tables/S16_climate_trends.tex."""
 from pathlib import Path
 import numpy as np
 import pandas as pd

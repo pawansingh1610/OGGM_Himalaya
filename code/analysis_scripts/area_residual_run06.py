@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Exact decomposition of the run_06_areacons mass residual over the calibration period (2026-11-11).
+"""Exact decomposition of the run_06_areacons mass residual over the calibration period.
 
 Per glacier i (calib ok, not backward-vanished), n years of the calibration period (2000-2019; CHELSA 2000-2009):
   M_i  = sum_t dm_gt(i,t) / n                       modelled mass rate (= sum_t B_t A_t / n)

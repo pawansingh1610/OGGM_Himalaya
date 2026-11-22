@@ -1,4 +1,4 @@
-"""Single place for the compiled run used by every script (read-only, on External2)."""
+"""Single place for the compiled run used by every script (read-only)."""
 import sys as _s, pathlib as _p
 _s.path.insert(0, str(_p.Path(__file__).resolve().parents[1]))
 from config import OGGM_ROOT  # noqa: E402

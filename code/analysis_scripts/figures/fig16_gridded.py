@@ -7,8 +7,8 @@ figS_gridded_mb_forcings   the five forcings, 1980-1999 (Supplement)
 fig17_gridded_vol     (a) ice-volume change 2000-2019 in km3, (b) in % of the cell's V_1999
 figS_gridded_vol_1950 volume change 1950-1979, ERA5 / ERA5-Land / CRU_TS4 separately (Supplement; not constrained)
 
-Inputs: tables/gridded_{mb,vol}_*.csv (scripts/gridded_best.py), data_external sub-region polygons are not in the repo, so the
-15 sub-regions are drawn from tables/../analysis? -> the outline is read from External2 (HMA_region.shp) only when present.
+Inputs: tables/gridded_{mb,vol}_*.csv (scripts/gridded_best.py). The 15 sub-region outlines are drawn only when
+$HMA_OGGM_ROOT/download_cache/HMA/HMA_region.shp is present.
 """
 import sys as _s, pathlib as _p
 _s.path.insert(0, str(_p.Path(__file__).resolve().parents[2]))

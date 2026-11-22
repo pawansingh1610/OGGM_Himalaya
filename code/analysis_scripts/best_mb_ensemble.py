@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-"""Best-estimate HMA mass balance from the five forcings (decision D, 2026-11-09).
+"""Best-estimate HMA mass balance from the five forcings
 
-Spec (from Pawan's item D; no other written spec exists):
+Design:
   - member weights from the split-sample geodetic test and the field anomaly correlation;
   - family correction: CRU family (CRU TS4, CHELSA-W5E5) vs ERA5 family (ERA5, ERA5-Land, HARv2);
   - leave-one-out validation; fall back to equal family weights if weighting does not win;
@@ -27,7 +27,7 @@ Definitions (all inputs are files read below; nothing is typed in by hand):
   sigma_trend     observed sub-period misfit: half the absolute split-test misfit of the chosen ensemble (a model
                 calibrated to the 20-yr mean misplaces each 10-yr half by this much), scaled with the distance of the year or
                 period midpoint from the centre of the calibration period (2009.5): factor max(1, |mid - 2009.5| / 5), i.e. a
-                trend error that persists linearly outside 2000-2019 (round-3 review, 2026-11-16; before: constant in time).
+                trend error that persists linearly outside 2000-2019.
                 The unscaled value is kept as sigma_trend_base. 1980-1999: factor 4; 1950-1979: 9; 2020-2025: 2.6.
   sigma_prior   prior sensitivity: weighted RMS over members of B(sigma_T = 1.5) - B(sigma_T = 4) on the
                 681-glacier test subset (compiled_v3 vs compiled_v3_run_03_sT4), computed for pentads, decades and
@@ -297,8 +297,8 @@ def main():
     win_field = lf.loc["weighted", "RMSE"] < lf.loc["equal_family", "RMSE"]
     win_split = ls.loc["weighted", "MAE_areaw"] < ls.loc["equal_family", "MAE_areaw"]
     scheme = "weighted" if (win_field and win_split) else "equal_family"
-    # Author decision 2026-11-12 (after the simulated review): the main best estimate uses equal family weights; the
-    # skill-weighted estimate is kept as the sensitivity result (best_mb_scheme_sensitivity.csv).
+    # The main best estimate uses equal family weights; the skill-weighted estimate is the sensitivity result
+    # (best_mb_scheme_sensitivity.csv).
     scheme = "equal_family"
     print(f"weighted beats equal-family: field {win_field}, split {win_split} -> scheme = {scheme}")
     loo = pd.concat({"field_leave_one_glacier_out": lf, "split_leave_one_subregion_out": ls}, axis=0)
@@ -479,8 +479,8 @@ def s8(W, lf, ls, scheme):
 
 
 def rescale_from_csv():
-    """Apply the sigma_trend scaling to the existing best_mb_*.csv without recomputing the members or sigma_prior (the
-    sigma_T = 1.5 / 4 test-subset outputs are on External2). Idempotent: uses sigma_trend_base if present. Rewrites the
+    """Apply the sigma_trend scaling to the existing best_mb_*.csv without recomputing the members or sigma_prior (which
+    needs the sigma_T = 1.5 / 4 test-subset outputs). Idempotent: uses sigma_trend_base if present. Rewrites the
     four series, the scheme-sensitivity table and T7. A full run of main() gives the same result."""
     out = {}
     for name in ["annual", "pentad", "decadal", "periods"]:

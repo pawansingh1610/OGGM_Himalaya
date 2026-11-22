@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Figure 12 in Draft_2 (file 12) - glacier-fed river basins: (a-c) glacier volume change per forcing in % of the
+"""Figure file 12 - glacier-fed river basins: (a-c) glacier volume change per forcing in % of the
 basin's V_1999 for 1980-1999, 2000-2019, 2000-2025; (d) population change (%) 1975-2000 and 2000-2020 for the
 whole basin (bars) and the glacierised level-7 units (ticks); 2020 basin population printed on the right.
 

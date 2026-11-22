@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Figure 9 in Draft_2 (file 14) - annual mass balance 2000-2025 of the forcings and the best estimate
+"""Figure file 14 - annual mass balance 2000-2025 of the forcings and the best estimate
 against GlaMBIE (calendar years, 95 % interval) for RGI 13, 14, 15 and HMA (a-d); field glaciers with data in both
 2010-2019 and 2020-2024 (e).
 

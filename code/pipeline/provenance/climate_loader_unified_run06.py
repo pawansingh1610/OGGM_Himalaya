@@ -89,7 +89,6 @@ def detect_cache_root(hint: str = None) -> Path:
     here = Path(__file__).resolve().parent
     for parent in [here] + list(here.parents):
         # <parent>/download_cache  or  <parent>/OGGM/download_cache
-        # (code in .../Pawan/OGGM_Complete, data in .../Pawan/OGGM/download_cache)
         for marker in [parent / "download_cache",
                        parent / "OGGM" / "download_cache"]:
             if marker.exists() and (marker / _CACHE_MARKER).exists():

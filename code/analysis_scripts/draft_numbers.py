@@ -1,10 +1,9 @@
 #!/usr/bin/env python
-"""Every model-derived number quoted in Draft_2.tex, computed from analysis/ and tables/ (2026-11-11).
+"""Every model-derived number quoted in the paper, computed from analysis/ and tables/.
 
 Usage:  python draft_numbers.py [--an DIR] [--tab DIR] [--out FILE]
-Default dirs are my-paper/analysis and my-paper/tables. Run once on the superseded copies
-(analysis_superseded_run_04_full_fix/, the old tables) and once on the current ones to get old -> new.
-Output: one line per key, "key<TAB>value" (raw, unrounded). Keys are grouped by the draft section that quotes them.
+Default dirs are analysis/ and tables/ of the working folder.
+Output: one line per key, "key<TAB>value" (raw, unrounded). Keys are grouped by the paper section that quotes them.
 Observation-only numbers (field data, Hugonnet, GlaMBIE, population) are not listed.
 """
 import argparse
@@ -23,7 +22,7 @@ def main():
     ap.add_argument("--an", default=str(ROOT / "analysis"))
     ap.add_argument("--tab", default=str(ROOT / "tables"))
     ap.add_argument("--out", default=None)
-    ap.add_argument("--meta", action="store_true", help="also area-factor stats from per-glacier metadata (External2)")
+    ap.add_argument("--meta", action="store_true", help="also area-factor stats from per-glacier metadata")
     a = ap.parse_args()
     AN, TAB = Path(a.an), Path(a.tab)
     out = {}

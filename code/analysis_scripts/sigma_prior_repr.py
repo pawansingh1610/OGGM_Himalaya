@@ -11,7 +11,7 @@ weights of the members covering every year (as best_mb_ensemble.aggregate). Vari
 Each variant for HMA and per RGI region. Full-scale check (ERA5, RGI 13): run_04_full (sigma_T 1.5) vs run_05 (sigma_T 4),
 both specific-rate targets like the test runs: all 54 429 glaciers, RGI-area weighted and as sum(dm)/sum(A_start); and the
 same per-glacier differences on the subset glaciers only (V1/V2/V3 construction).
-Output: context/reports/external2_round3/sigma_prior_*.csv. Env oggm."""
+Output: tables/additional_analyses/sigma_prior_*.csv. Env oggm."""
 import sys as _s, pathlib as _p
 _s.path.insert(0, str(_p.Path(__file__).resolve().parents[1]))
 from config import OGGM_ROOT, CODE_DIR  # noqa: E402
@@ -20,7 +20,7 @@ from pathlib import Path
 import numpy as np, pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 E2 = OGGM_ROOT
-OUT = ROOT / "context/reports/external2_round3"; OUT.mkdir(parents=True, exist_ok=True)
+OUT = ROOT / "tables/additional_analyses"; OUT.mkdir(parents=True, exist_ok=True)
 R15, R4 = E2 / "compiled_v3/per_forcing", E2 / "compiled_v3_run_03_sT4/per_forcing"
 FORC = ["ERA5", "ERA5-Land", "HARv2", "CRU_TS4", "CHELSA"]
 FAM = {"ERA5": "E", "ERA5-Land": "E", "HARv2": "E", "CRU_TS4": "C", "CHELSA": "C"}

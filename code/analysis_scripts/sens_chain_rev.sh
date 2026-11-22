@@ -1,7 +1,7 @@
 #!/bin/bash
 # Reverse hindcast on the 681-glacier test subset: calibrate to Hugonnet 2010-2019 only, predict 2000-2009 (new run name run_s07_rev_hindcast).
-# Same settings as the other sensitivity runs (sigma_T = 4, no area-consistent target, corrected ERA5-Land precipitation); model-code copy
-# OGGM_Complete_sens. CHELSA-W5E5 (ends 2016) cannot be calibrated to 2010-2019 and is not run.
+# Same settings as the other sensitivity runs (sigma_T = 4, no area-consistent target, corrected ERA5-Land precipitation); sensitivity copy
+# of the pipeline. CHELSA-W5E5 (ends 2016) cannot be calibrated to 2010-2019 and is not run.
 set -u
 OGGM=${HMA_OGGM_ROOT:?set HMA_OGGM_ROOT}
 CODE=${HMA_SENS_CODE_DIR:?set HMA_SENS_CODE_DIR (code/pipeline/provenance + the other pipeline files)}

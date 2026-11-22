@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Verify the compiled run_06_areacons set before it is used (steps 1-2, 2026-11-11).
+"""Verify the compiled run_06_areacons set before it is used.
 
 1. Every glacier x forcing: prior_sigma_t == 4, area_consistent == True; counts of area_factor_flag
    (ok / capped / other / missing) per forcing x region. Glaciers absent from metadata (failed) are listed.

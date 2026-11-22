@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-"""Compact LaTeX versions of Table 3 (HMA volume windows) and Table 7 (basins), rewritten after the
-author's comments on Draft_2 (p. 12: "very confusing table, spread more evenly"; p. 26: "simplify, use the
-plot and a simplified table").
+"""Compact LaTeX versions of Table 3 (HMA volume windows) and Table 7 (basins).
 
 Reads only CSVs in tables/ (written by make_figures.py and population_basins.py), so it can be re-run at any
 time:  python scripts/tables_tex.py

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Figure 4 in Draft_2 (file 06) - volume change per window: (a) HMA, km3 ice, five forcings;
+"""Figure file 06 - volume change per window: (a) HMA, km3 ice, five forcings;
 (b, c) sub-regions, % of the sub-region's V_1999, 1980-1999 and 2000-2016 (common colour scale).
 
 Inputs: analysis/C_volume_change_windows.csv (level, unit, forcing, window, dV_km3)
@@ -37,7 +37,7 @@ ax.set_ylabel("ΔV (km$^3$ ice)")
 ax.legend(ncol=5, loc="lower left")
 v1 = h.V_1999_km3.median() / 100
 ax.text(1.0, 1.01, f"1 % of $V_{{1999}}$ ≈ {v1:.0f} km$^3$ ice ≈ {0.9 * v1:.0f} Gt", transform=ax.transAxes,
-        ha="right", va="bottom", color=INK2)  # above the axes, clear of the bars (v3.8 review)
+        ha="right", va="bottom", color=INK2)  # above the axes, clear of the bars
 ax.set_title("(a) HMA volume change per window")
 print(f"   1 % of V_1999 (median over forcings) = {v1:.1f} km3 = {0.9 * v1:.1f} Gt")
 

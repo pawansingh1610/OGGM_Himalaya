@@ -16,7 +16,6 @@ LK = pd.read_csv(ROOT / "analysis/glacier_lookup.csv").set_index("rgi_id")
 Y0, Y1 = 1975, 1999
 FIRST = {"ERA5": 1950, "ERA5-Land": 1950, "CRU_TS4": 1950, "CHELSA": 1979, "HARv2": 1980}
 him = LK.subregion.isin(["West Himalaya", "Central Himalaya", "East Himalaya"]) & LK.CenLon.between(75, 93)
-top = him & (LK.area_rgi_km2.rank(ascending=False, method="first") <= 0)   # placeholder, replaced below
 hid = LK[him].sort_values("area_rgi_km2", ascending=False).head(650).index
 box = lambda a: LK.index[(LK.CenLon.between(a[0], a[1])) & (LK.CenLat.between(a[2], a[3]))]
 AREAS = {"Himalaya 650 largest (Maurer)": set(hid), "Karakoram (Zhou)": set(box((74.33, 78.25, 33.75, 37.5))),

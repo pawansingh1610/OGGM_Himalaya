@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Figure 5 in Draft_2 (file 07) - split-sample geodetic test: (a) HMA change in area-weighted mass balance
+"""Figure file 07 - split-sample geodetic test: (a) HMA change in area-weighted mass balance
 from 2000-2009 to 2010-2019, modelled vs observed; (b) modelled minus observed change by sub-region.
 
 Input: analysis/E_split_sample.csv (forcing, subregion, dObs_areaw, dMod_areaw, dMod_minus_dObs)

@@ -1,6 +1,6 @@
 #!/bin/bash
-# Sensitivity runs on the 681-glacier test subset (author request 2026-11-12). Uses the COPY of the model code
-# the sensitivity copy of the pipeline (switches: OGGM_V3_MELT_SCALE, OGGM_V3_LAPSE_DELTA, OGGM_V3_CALIB_ONLY_PERIOD).
+# Sensitivity runs on the 681-glacier test subset with the sensitivity copy of the pipeline
+# (code/pipeline/provenance/01_MAIN_PIPELINE_sensitivity_runs_s01-s07.py; (switches: OGGM_V3_MELT_SCALE, OGGM_V3_LAPSE_DELTA, OGGM_V3_CALIB_ONLY_PERIOD).
 # All runs: sigma_T = 4, no area-consistent target, ERA5-Land with corrected precipitation, 12 workers. New run names only.
 set -u
 OGGM=${HMA_OGGM_ROOT:?set HMA_OGGM_ROOT}

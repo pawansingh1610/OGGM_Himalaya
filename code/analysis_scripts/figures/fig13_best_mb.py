@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Figure 8 in Draft_2 (file 13) - best-estimate HMA mass balance with +-sigma_forcing and +-sigma_total
+"""Figure file 13 - best-estimate HMA mass balance with +-sigma_forcing and +-sigma_total
 and the five members (a); the four uncertainty components and the total (b).
 
 Inputs: tables/best_mb_annual.csv (level == hma; year, B_best, sigma_*), analysis/B_regional_series.csv (members)
